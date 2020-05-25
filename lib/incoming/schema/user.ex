@@ -3,6 +3,7 @@ defmodule Incoming.User do
 
   use Ecto.Schema
   import Ecto.Changeset
+  alias Incoming.{Repo, User}
 
   @primary_key {:id, :binary_id, autogenerate: true}
 
@@ -22,6 +23,11 @@ defmodule Incoming.User do
     |> validate_confirmation(:password, required: true)
     |> unique_constraint(:email)
     |> put_encrypted_password()
+  end
+
+  def insert(params) do
+    cs = changeset(%User{}, params)
+    Repo.insert(cs)
   end
 
   defp put_encrypted_password(%{valid?: true, changes: %{password: pw}} = changeset) do

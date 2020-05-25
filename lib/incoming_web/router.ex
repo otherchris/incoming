@@ -18,6 +18,7 @@ defmodule IncomingWeb.Router do
 
     get "/", PageController, :index
     get "/register", UserController, :new
+    post "/users", UserController, :create
     get "/login", SessionController, :new
     get "/shifts", ShiftController, :index
     post "/shifts/sign-up", ShiftController, :sign_up
