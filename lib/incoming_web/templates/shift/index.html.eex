@@ -1,5 +1,5 @@
 <div>
-  <%= form_for @conn, "/shifts/sign-up", [as: :shift], fn f -> %>
+  <%= form_for @conn, "/shifts/sign-up", [as: :shifts], fn f -> %>
     <div class="shift-input-container">  
       <%= for day <- 0..2 do%>
         <div class="day-list-container">

@@ -13,7 +13,16 @@ defmodule Incoming.ShiftTest do
       aafter = Repo.all(Shift) |> length
       assert aafter == before + 1
     end
-  end
+
+    test "insert truncates the start" do
+      now = DateTime.utc_now()
+      {:ok, _} = Shift.insert(%{start: now})
+      {:ok, [shift]} = Shift.get_by_start(now)
+
+      refute shift.start == now
+      assert shift.start == DateTime.truncate(now, :second)
+    end
+  end 
 
   describe "required fields" do
     test "start is required in the db schema" do
@@ -23,6 +32,17 @@ defmodule Incoming.ShiftTest do
     test "start is required on the changeset" do
       cs = Shift.changeset(%Shift{}, %{})
       refute cs.valid?
+    end
+  end
+
+  describe "queries" do
+    test "get_by_start" do
+      now = DateTime.utc_now
+      %{start: now}
+      |> Shift.insert
+
+      {:ok, [shift]} = Shift.get_by_start(now)
+      assert shift.start == DateTime.truncate(now, :second)
     end
   end
 end
