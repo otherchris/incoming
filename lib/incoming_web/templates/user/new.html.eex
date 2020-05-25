@@ -1,0 +1,13 @@
+<div>
+  <%= form_for @conn, "/user", [as: :user], fn f -> %>
+    <label>
+      Username: <%= text_input f, :username %>
+    <label>
+    <label>
+      Password: <%= text_input f, :password %>
+    <label>
+    <label>
+      Confirm Password: <%= text_input f, :confirm_password %>
+    <label>
+    <%= submit "Create Account"%>
+  <% end %>

@@ -17,6 +17,8 @@ defmodule IncomingWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/register", UserController, :new
+    get "/login", SessionController, :new
     get "/shifts", ShiftController, :index
     post "/shifts/sign-up", ShiftController, :sign_up
   end

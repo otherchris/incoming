@@ -1,0 +1,10 @@
+<div>
+  <%= form_for @conn, "/session", [as: :user], fn f -> %>
+    <label>
+      Username: <%= text_input f, :username %>
+    <label>
+    <label>
+      Password: <%= text_input f, :password %>
+    <label>
+    <%= submit "Login"%>
+  <% end %>

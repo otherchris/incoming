@@ -1,9 +1,27 @@
 /* eslint-disable no-undef */
 context('Click through tour', () => {
-    beforeEach(() => {
-        cy.visit('localhost:4000/shifts');
+    it('register a new user', () => {
+        cy.visit('localhost:4000/register');
+        cy.get('#user_username')
+            .type("a_user");
+        cy.get('#user_password')
+            .type("a_password");
+        cy.get('#user_confirm_password')
+            .type("a_password");
+        cy.get('button')
+            .click();
     });
-    it('basically works', () => {
+    it('log in', () => {
+        cy.visit('localhost:4000/login');
+        cy.get('#user_username')
+            .type("a_user");
+        cy.get('#user_password')
+            .type("a_password");
+        cy.get('button')
+            .click();
+    });
+    it('shifts page basically works', () => {
+        cy.visit('localhost:4000/shifts');
         cy.get('input[type="checkbox"').first().click();
         cy.get('button').click();
     });
