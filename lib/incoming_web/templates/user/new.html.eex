@@ -1,13 +1,16 @@
 <div>
-  <%= form_for @conn, "/user", [as: :user], fn f -> %>
+  <%= form_for @conn, "/users", [as: :user], fn f -> %>
     <label>
-      Username: <%= text_input f, :username %>
+      Display name: <%= text_input f, :display_name%>
+    <label>
+    <label>
+      Email: <%= text_input f, :email%>
     <label>
     <label>
       Password: <%= text_input f, :password %>
     <label>
     <label>
-      Confirm Password: <%= text_input f, :confirm_password %>
+      Confirm Password: <%= text_input f, :password_confirmation%>
     <label>
     <%= submit "Create Account"%>
   <% end %>

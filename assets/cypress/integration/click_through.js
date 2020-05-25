@@ -2,11 +2,13 @@
 context('Click through tour', () => {
     it('register a new user', () => {
         cy.visit('localhost:4000/register');
-        cy.get('#user_username')
+        cy.get('#user_email')
             .type("a_user");
+        cy.get('#user_display_name')
+            .type("Howdy Doody");
         cy.get('#user_password')
             .type("a_password");
-        cy.get('#user_confirm_password')
+        cy.get('#user_password_confirmation')
             .type("a_password");
         cy.get('button')
             .click();
