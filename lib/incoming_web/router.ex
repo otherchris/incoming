@@ -17,6 +17,7 @@ defmodule IncomingWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/shifts", ShiftController, :index
   end
 
   # Other scopes may use custom stacks.

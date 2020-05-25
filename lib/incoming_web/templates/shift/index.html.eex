@@ -1,0 +1,15 @@
+<div>
+  <div class="shift-day-column">  
+    <%= for day <- 0..2 do%>
+      <ul class="day-list">
+        <%= for shift_time <- shift_time_list(day) do%>
+        <li>
+            <%= shift_time %>
+            <input type="checkbox" />
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+    </ul>
+  </div>
+</div>
