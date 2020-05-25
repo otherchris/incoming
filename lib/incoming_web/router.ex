@@ -18,6 +18,7 @@ defmodule IncomingWeb.Router do
 
     get "/", PageController, :index
     get "/shifts", ShiftController, :index
+    post "/shifts/sign-up", ShiftController, :sign_up
   end
 
   # Other scopes may use custom stacks.

@@ -7,4 +7,8 @@ context('Shift Page', () => {
         cy.get('ul.day-list')
             .should('have.length', 3);
     });
+    it('has all the checkboxes', () => {
+        cy.get('input[type="checkbox"]')
+            .should('have.length', 144);
+    });
 });

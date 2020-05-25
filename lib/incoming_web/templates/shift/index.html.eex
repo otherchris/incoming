@@ -1,15 +1,19 @@
 <div>
-  <div class="shift-day-column">  
-    <%= for day <- 0..2 do%>
-      <ul class="day-list">
-        <%= for shift_time <- shift_time_list(day) do%>
-        <li>
-            <%= shift_time %>
-            <input type="checkbox" />
-          </li>
-        <% end %>
-      </ul>
-    <% end %>
-    </ul>
-  </div>
+  <%= form_for @conn, "/shifts/sign-up", [as: :shift], fn f -> %>
+    <div class="shift-input-container">  
+      <%= for day <- 0..2 do%>
+        <div class="day-list-container">
+          <ul class="day-list">
+            <%= for shift_time <- shift_time_list(day) do%>
+              <li>
+                <%= shift_time.label %>
+                <%= checkbox f, shift_time.value %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <%= submit "Sign Up!"%>
+    </div>
+  <% end %>
 </div>

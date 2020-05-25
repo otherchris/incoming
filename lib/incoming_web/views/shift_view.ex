@@ -1,6 +1,9 @@
 defmodule IncomingWeb.ShiftView do
   use IncomingWeb, :view
 
+  @type date_view_type() :: %{label: String.t(), value: String.t()}
+
+  @spec shift_time_list(integer()) :: list(date_view_type)
   def shift_time_list(days_in_future) do
     0..47 |> Enum.map(fn(n) -> 
       offset_datetime(DateTime.utc_now(), days_in_future, n)
@@ -8,8 +11,12 @@ defmodule IncomingWeb.ShiftView do
     end)
   end
 
+  @spec date_view(DateTime.t()) :: date_view_type()
   def date_view(dt) do
-    DateTime.to_string(dt)
+    %{
+      label: DateTime.to_string(dt),
+      value: DateTime.to_iso8601(dt)
+    }
   end
 
   @spec offset_datetime(DateTime.t(), integer(), integer()) :: String.t
