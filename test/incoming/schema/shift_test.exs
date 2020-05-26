@@ -6,17 +6,21 @@ defmodule Incoming.ShiftTest do
   alias Incoming.Shift
   alias Incoming.Repo
 
+  import Incoming.Factory
+
   describe "operations" do
     test "can insert a shift" do 
+      %{id: user_id} = insert(:user)
       before = Repo.all(Shift) |> length
-      {:ok, _} = Shift.insert(%{start: DateTime.utc_now})
+      {:ok, _} = Shift.insert(%{start: DateTime.utc_now, user_id: user_id})
       aafter = Repo.all(Shift) |> length
       assert aafter == before + 1
     end
 
     test "insert truncates the start" do
+      %{id: user_id} = insert(:user)
       now = DateTime.utc_now()
-      {:ok, _} = Shift.insert(%{start: now})
+      {:ok, _} = Shift.insert(%{start: now, user_id: user_id})
       {:ok, [shift]} = Shift.get_by_start(now)
 
       refute shift.start == now
@@ -37,8 +41,9 @@ defmodule Incoming.ShiftTest do
 
   describe "queries" do
     test "get_by_start" do
+      %{id: user_id} = insert(:user)
       now = DateTime.utc_now
-      %{start: now}
+      %{start: now, user_id: user_id}
       |> Shift.insert
 
       {:ok, [shift]} = Shift.get_by_start(now)

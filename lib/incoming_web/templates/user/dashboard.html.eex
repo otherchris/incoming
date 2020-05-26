@@ -1,0 +1,5 @@
+<%= for shift <- @user.shifts do %>
+  <div>
+    <%= shift.start %>
+  </div>
+<% end %> 

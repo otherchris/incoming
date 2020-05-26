@@ -43,4 +43,8 @@ defmodule IncomingWeb.Authentication do
   def log_out(conn) do
     __MODULE__.Plug.sign_out(conn)
   end
+
+  def get_current_user(conn) do
+    __MODULE__.Plug.current_resource(conn)
+  end
 end

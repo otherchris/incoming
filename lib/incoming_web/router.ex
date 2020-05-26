@@ -34,6 +34,7 @@ defmodule IncomingWeb.Router do
   scope "/", IncomingWeb do
     pipe_through [:browser, :guardian, :browser_auth]
 
+    get "/dashboard", UserController, :dashboard
     get "/shifts", ShiftController, :index
     post "/shifts/sign-up", ShiftController, :sign_up
     delete "/logout", SessionController, :delete

@@ -3,11 +3,19 @@ defmodule IncomingWeb.UserController do
 
   use IncomingWeb, :controller
 
-  alias Incoming.User
+  alias Incoming.{Repo, User}
   alias IncomingWeb.Authentication
 
   def new(conn, _params) do
     render(conn, "new.html")
+  end
+
+  def dashboard(conn, _params) do
+    user = 
+      conn
+      |> Authentication.get_current_user
+      |> Repo.preload(:shifts)
+    render(conn, "dashboard.html", %{user: user})
   end
 
   def create(conn, params) do

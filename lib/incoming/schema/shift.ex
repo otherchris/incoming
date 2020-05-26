@@ -1,8 +1,7 @@
 defmodule Incoming.Shift do
   @moduledoc false
 
-  alias Incoming.Repo
-  alias Incoming.Shift
+  alias Incoming.{Repo, Shift, User}
   use Ecto.Schema
   import Ecto.Changeset
   import Ecto.Query
@@ -11,12 +10,13 @@ defmodule Incoming.Shift do
 
   schema "shifts" do
     field(:start, :utc_datetime)
+    belongs_to(:user, User, foreign_key: :user_id, references: :id, type: :binary_id)
 
     timestamps()
   end
 
   @fields ~w()a
-  @required_fields ~w(start)a
+  @required_fields ~w(start user_id)a
 
   def changeset(shift = %Shift{}, attrs = %Shift{}) do
     changeset(shift, Map.from_struct(attrs))

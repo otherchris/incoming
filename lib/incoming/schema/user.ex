@@ -4,7 +4,7 @@ defmodule Incoming.User do
   use Ecto.Schema
   import Ecto.Query
   import Ecto.Changeset
-  alias Incoming.{Repo, User}
+  alias Incoming.{Repo, Shift, User}
 
   @primary_key {:id, :binary_id, autogenerate: true}
 
@@ -13,7 +13,7 @@ defmodule Incoming.User do
     field :display_name, :string
     field :password, :string, virtual: true
     field :hashed_password, :string
-
+    has_many :shifts, Shift
     timestamps()
   end
 
@@ -37,6 +37,11 @@ defmodule Incoming.User do
 
   def get_by_email(email) do
     Repo.get_by(User, email: email)
+  end
+
+  def get_shifts_for_user_id(id) do
+    user = get_user(id)
+    Repo.all(Ecto.assoc(user, :shifts))
   end
 
   defp put_encrypted_password(%{valid?: true, changes: %{password: pw}} = changeset) do
