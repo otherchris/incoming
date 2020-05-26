@@ -20,6 +20,12 @@ Cypress.Commands.add('login', (email, pw) => {
 
 context('Click through tour', () => {
     var email = makeemail();
+    it('shows the homepage', () => {
+        cy.visit('localhost:4000');
+        cy.contains('Incoming');
+        cy.contains('Log In');
+        cy.contains('Welcome to Incoming');
+    })
     it('register a new user', () => {
         cy.visit('localhost:4000/register');
         cy.get('#user_email')

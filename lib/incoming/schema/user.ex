@@ -2,7 +2,6 @@ defmodule Incoming.User do
   @moduledoc false
 
   use Ecto.Schema
-  import Ecto.Query
   import Ecto.Changeset
   alias Incoming.{Repo, Shift, User}
 
