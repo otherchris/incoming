@@ -11,10 +11,11 @@ defmodule IncomingWeb.UserController do
   end
 
   def dashboard(conn, _params) do
-    user = 
+    user =
       conn
-      |> Authentication.get_current_user
+      |> Authentication.get_current_user()
       |> Repo.preload(:shifts)
+
     render(conn, "dashboard.html", %{user: user})
   end
 
@@ -25,12 +26,15 @@ defmodule IncomingWeb.UserController do
       "password_confirmation" => password_confirmation,
       "display_name" => display_name
     } = params["user"]
-    {:ok, user} = User.insert(%{
-      email: email,
-      password: password,
-      password_confirmation: password_confirmation,
-      display_name: display_name
-    }) 
+
+    {:ok, user} =
+      User.insert(%{
+        email: email,
+        password: password,
+        password_confirmation: password_confirmation,
+        display_name: display_name
+      })
+
     conn
     |> Authentication.log_in(user)
     |> redirect(to: "/")

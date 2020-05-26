@@ -23,11 +23,12 @@ defmodule Incoming.Shift do
   end
 
   def changeset(shift = %Shift{}, attrs) do
-    attrs = if Map.has_key?(attrs, :start) do
-      Map.put(attrs, :start, DateTime.truncate(attrs.start, :second))
-    else
-      attrs
-    end
+    attrs =
+      if Map.has_key?(attrs, :start) do
+        Map.put(attrs, :start, DateTime.truncate(attrs.start, :second))
+      else
+        attrs
+      end
 
     shift
     |> cast(attrs, @fields ++ @required_fields)
@@ -36,16 +37,19 @@ defmodule Incoming.Shift do
 
   def insert(shift) do
     cs = changeset(%Shift{}, shift)
+
     if cs.valid? do
       Repo.insert(cs)
     else
       {:error, :invalid}
     end
-  end 
+  end
 
   def get_by_start(shift) do
-    query = from s in Shift,
-              where: s.start == ^shift
+    query =
+      from s in Shift,
+        where: s.start == ^shift
+
     {:ok, Repo.all(query)}
   end
 end

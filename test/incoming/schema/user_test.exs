@@ -36,16 +36,19 @@ defmodule Incoming.UserTest do
       cs = User.changeset(%User{}, bad_user)
       refute cs.valid?
     end
+
     test "display_name is required on the changeset" do
       bad_user = Map.delete(@good_user, :display_name)
       cs = User.changeset(%User{}, bad_user)
       refute cs.valid?
     end
+
     test "password is required on the changeset" do
       bad_user = Map.delete(@good_user, :password)
       cs = User.changeset(%User{}, bad_user)
       refute cs.valid?
     end
+
     test "password confirmation must match" do
       bad_user = Map.put(@good_user, :password_confirmation, "berf")
       cs = User.changeset(%User{}, bad_user)

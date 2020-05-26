@@ -11,7 +11,7 @@ defmodule IncomingWeb.ShiftViewTest do
       assert IncomingWeb.ShiftView.start_of_day(dt) == start
     end
   end
-   
+
   describe "make_date" do
     test "gives iso string of date offset from given date by days and half hours" do
       {:ok, base, _} = DateTime.from_iso8601("2020-01-01T00:00:00Z")

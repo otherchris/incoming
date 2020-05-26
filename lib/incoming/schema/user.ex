@@ -51,5 +51,4 @@ defmodule Incoming.User do
   defp put_encrypted_password(changeset) do
     changeset
   end
-
 end

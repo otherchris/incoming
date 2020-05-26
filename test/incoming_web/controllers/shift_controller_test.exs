@@ -5,17 +5,17 @@ defmodule IncomingWeb.ShiftControllerTest do
   alias Incoming.{Repo, Shift, User}
   alias IncomingWeb.Authentication
 
-  @time1  "2020-01-01T00:00:00Z"
-  @time2  "2020-01-01T00:30:00Z"
-  @time3  "2020-01-02T00:30:00Z"
-  @badtime  "2020-01-01T00:12:00Z"
-  @nottime  "kljdsic"
+  @time1 "2020-01-01T00:00:00Z"
+  @time2 "2020-01-01T00:30:00Z"
+  @time3 "2020-01-02T00:30:00Z"
+  @badtime "2020-01-01T00:12:00Z"
+  @nottime "kljdsic"
 
   @user %{
     email: "me@example.com",
     display_name: "Hell",
     password: "pass",
-    password_confirmation: "pass" 
+    password_confirmation: "pass"
   }
 
   setup do
@@ -26,9 +26,13 @@ defmodule IncomingWeb.ShiftControllerTest do
   describe "post /shifts/sign-up" do
     test "inserts the requested shifts", %{user: user} do
       before_count = Repo.all(Shift) |> length
+
       build_conn()
       |> Authentication.log_in(user)
-      |> post("/shifts/sign-up", %{ "shifts" => %{@time1 => "true", @time2 => "false", @time3 => "true"}})
+      |> post("/shifts/sign-up", %{
+        "shifts" => %{@time1 => "true", @time2 => "false", @time3 => "true"}
+      })
+
       after_count = Repo.all(Shift) |> length
       assert after_count == before_count + 2
 

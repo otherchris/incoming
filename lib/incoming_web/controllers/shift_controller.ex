@@ -10,13 +10,14 @@ defmodule IncomingWeb.ShiftController do
 
   def sign_up(conn, params) do
     %{id: user_id} = Authentication.get_current_user(conn)
-    shifts = 
+
+    shifts =
       params
       |> Map.get("shifts")
-      |> Enum.filter(fn({k, v}) -> v == "true" end)
-      |> Enum.map(fn({sdt, _}) -> DateTime.from_iso8601(sdt) end) 
-      |> Enum.each(fn({:ok, dt, _}) -> Shift.insert(%{start: dt, user_id: user_id}) end) 
-    
+      |> Enum.filter(fn {k, v} -> v == "true" end)
+      |> Enum.map(fn {sdt, _} -> DateTime.from_iso8601(sdt) end)
+      |> Enum.each(fn {:ok, dt, _} -> Shift.insert(%{start: dt, user_id: user_id}) end)
+
     redirect(conn, to: "/")
   end
 end
