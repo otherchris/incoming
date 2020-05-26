@@ -1,7 +1,7 @@
 <div>
   <%= form_for @conn, "/session", [as: :user], fn f -> %>
     <label>
-      Username: <%= text_input f, :username %>
+      Email: <%= text_input f, :email%>
     <label>
     <label>
       Password: <%= text_input f, :password %>

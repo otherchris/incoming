@@ -1,6 +1,14 @@
 defmodule IncomingWeb.Router do
   use IncomingWeb, :router
 
+  pipeline :guardian do
+    plug IncomingWeb.Authentication.Pipeline
+  end
+
+  pipeline :browser_auth do
+    plug Guardian.Plug.EnsureAuthenticated
+  end
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -14,14 +22,21 @@ defmodule IncomingWeb.Router do
   end
 
   scope "/", IncomingWeb do
-    pipe_through :browser
+    pipe_through [:browser, :guardian]
 
     get "/", PageController, :index
     get "/register", UserController, :new
     post "/users", UserController, :create
     get "/login", SessionController, :new
+    post "/session", SessionController, :create
+  end
+
+  scope "/", IncomingWeb do
+    pipe_through [:browser, :guardian, :browser_auth]
+
     get "/shifts", ShiftController, :index
     post "/shifts/sign-up", ShiftController, :sign_up
+    delete "/logout", SessionController, :delete
   end
 
   # Other scopes may use custom stacks.

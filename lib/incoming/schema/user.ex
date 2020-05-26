@@ -2,6 +2,7 @@ defmodule Incoming.User do
   @moduledoc false
 
   use Ecto.Schema
+  import Ecto.Query
   import Ecto.Changeset
   alias Incoming.{Repo, User}
 
@@ -30,6 +31,14 @@ defmodule Incoming.User do
     Repo.insert(cs)
   end
 
+  def get_user(id) do
+    Repo.get(User, id)
+  end
+
+  def get_by_email(email) do
+    Repo.get_by(User, email: email)
+  end
+
   defp put_encrypted_password(%{valid?: true, changes: %{password: pw}} = changeset) do
     put_change(changeset, :hashed_password, Argon2.hash_pwd_salt(pw))
   end
@@ -37,4 +46,5 @@ defmodule Incoming.User do
   defp put_encrypted_password(changeset) do
     changeset
   end
+
 end

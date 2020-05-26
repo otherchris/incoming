@@ -4,6 +4,7 @@ defmodule IncomingWeb.UserController do
   use IncomingWeb, :controller
 
   alias Incoming.User
+  alias IncomingWeb.Authentication
 
   def new(conn, _params) do
     render(conn, "new.html")
@@ -16,12 +17,14 @@ defmodule IncomingWeb.UserController do
       "password_confirmation" => password_confirmation,
       "display_name" => display_name
     } = params["user"]
-    User.insert(%{
+    {:ok, user} = User.insert(%{
       email: email,
       password: password,
       password_confirmation: password_confirmation,
       display_name: display_name
-    })
-    redirect(conn, to: "/")
+    }) 
+    conn
+    |> Authentication.log_in(user)
+    |> redirect(to: "/")
   end
 end

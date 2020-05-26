@@ -1,0 +1,9 @@
+defmodule IncomingWeb.Authentication.Pipeline do
+  use Guardian.Plug.Pipeline,
+    otp_app: :incoming,
+    error_handler: IncomingWeb.Authentication.ErrorHandler,
+    module: IncomingWeb.Authentication
+
+  plug Guardian.Plug.VerifySession, claims: %{"typ" => "access"}
+  plug Guardian.Plug.LoadResource, allow_blank: true
+end

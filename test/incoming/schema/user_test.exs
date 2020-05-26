@@ -52,4 +52,12 @@ defmodule Incoming.UserTest do
       refute cs.valid?
     end
   end
+
+  describe "queries" do
+    test "get_by_email" do
+      User.insert(@good_user)
+      user = User.get_by_email(@good_user.email)
+      assert user.display_name == @good_user.display_name
+    end
+  end
 end
