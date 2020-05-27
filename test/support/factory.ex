@@ -6,7 +6,8 @@ defmodule Incoming.Factory do
     %Incoming.User{
       display_name: "Howdy Hoo",
       email: sequence(:email, &"email-#{&1}@example.com"),
-      hashed_password: "pass"
+      hashed_password: "pass",
+      phone: "(502) 555-1234"
     }
   end
 end

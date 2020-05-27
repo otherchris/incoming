@@ -5,21 +5,16 @@ defmodule IncomingWeb.ShiftControllerTest do
   alias Incoming.{Repo, Shift, User}
   alias IncomingWeb.Authentication
 
+  import Incoming.Factory
+
   @time1 "2020-01-01T00:00:00Z"
   @time2 "2020-01-01T00:30:00Z"
   @time3 "2020-01-02T00:30:00Z"
   @badtime "2020-01-01T00:12:00Z"
   @nottime "kljdsic"
 
-  @user %{
-    email: "me@example.com",
-    display_name: "Hell",
-    password: "pass",
-    password_confirmation: "pass"
-  }
-
   setup do
-    {:ok, user} = User.insert(@user)
+    user = insert(:user)
     %{user: user}
   end
 

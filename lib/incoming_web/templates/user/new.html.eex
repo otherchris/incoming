@@ -7,6 +7,9 @@
       Email: <%= text_input f, :email%>
     <label>
     <label>
+      Phone: <%= text_input f, :phone%>
+    <label>
+    <label>
       Password: <%= password_input f, :password %>
     <label>
     <label>

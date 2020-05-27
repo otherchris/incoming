@@ -24,7 +24,8 @@ defmodule IncomingWeb.UserController do
       "email" => email,
       "password" => password,
       "password_confirmation" => password_confirmation,
-      "display_name" => display_name
+      "display_name" => display_name,
+      "phone" => phone
     } = params["user"]
 
     {:ok, user} =
@@ -32,7 +33,8 @@ defmodule IncomingWeb.UserController do
         email: email,
         password: password,
         password_confirmation: password_confirmation,
-        display_name: display_name
+        display_name: display_name,
+        phone: phone
       })
 
     conn

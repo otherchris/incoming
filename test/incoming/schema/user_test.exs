@@ -10,6 +10,7 @@ defmodule Incoming.UserTest do
     display_name: "Guy Incognito",
     email: "me@example.com",
     password: "password",
+    phone: "(502) 555-1234 x",
     password_confirmation: "password"
   }
 
@@ -27,6 +28,18 @@ defmodule Incoming.UserTest do
       Repo.insert(cs)
       after_count = Repo.all(User) |> length
       assert before_count + 1 == after_count
+    end
+
+    test "cleans valid phone #" do
+      cs = User.changeset(%User{}, @good_user)
+      {:ok, %User{phone: phone}} = Repo.insert(cs)
+      assert phone == "5025551234"
+    end
+
+    test "validates phone #" do
+      bad_user = Map.put(@good_user, :phone, "(502) 555-123x")
+      cs = User.changeset(%User{}, bad_user)
+      refute cs.valid?
     end
   end
 

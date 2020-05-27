@@ -8,6 +8,7 @@ defmodule Incoming.User do
   @primary_key {:id, :binary_id, autogenerate: true}
 
   schema "users" do
+    field :phone, :string
     field :email, :string
     field :display_name, :string
     field :password, :string, virtual: true
@@ -17,12 +18,19 @@ defmodule Incoming.User do
   end
 
   def changeset(struct, params) do
+    params = clean_phone(params)
     struct
-    |> cast(params, [:email, :password, :display_name])
-    |> validate_required([:email, :password, :display_name])
+    |> cast(params, [:email, :password, :display_name, :phone])
+    |> validate_required([:email, :password, :display_name, :phone])
+    |> validate_length(:phone, is: 10)
     |> validate_confirmation(:password, required: true)
     |> unique_constraint(:email)
     |> put_encrypted_password()
+  end
+
+  defp clean_phone(params = %{phone: phone}) do
+    params
+    |> Map.put(:phone, String.replace(phone, ~r/[^\d]/, ""))
   end
 
   def insert(params) do

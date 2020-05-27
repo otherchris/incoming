@@ -8,7 +8,8 @@ defmodule IncomingWeb.UserControllerTest do
     "display_name" => "Guy Incognito",
     "email" => "me@example.com",
     "password" => "password",
-    "password_confirmation" => "password"
+    "password_confirmation" => "password",
+    "phone" => "(502) 555-1234"
   }
 
   describe "post /users" do

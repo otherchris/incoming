@@ -35,6 +35,8 @@ context('Click through tour', () => {
             .type(email);
         cy.get('#user_display_name')
             .type("Howdy Doody");
+        cy.get('#user_phone')
+            .type("502x555x1234");
         cy.get('#user_password')
             .type(password);
         cy.get('#user_password_confirmation')
