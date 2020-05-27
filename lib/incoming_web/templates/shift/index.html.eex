@@ -1,4 +1,5 @@
 <div>
+  All times Eastern
   <%= form_for @conn, "/shifts/sign-up", [as: :shifts], fn f -> %>
     <div class="shift-input-container">  
       <%= for day <- 0..2 do%>

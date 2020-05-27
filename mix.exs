@@ -49,7 +49,8 @@ defmodule Incoming.MixProject do
       {:argon2_elixir, "~> 2.3"},
       {:guardian, "~> 2.1"},
       {:ex_machina, "~> 2.4", only: :test},
-      {:timex, "~> 3.5"}
+      {:timex, "~> 3.5"},
+      {:tzdata, "~> 1.0.1"} 
     ]
   end
 

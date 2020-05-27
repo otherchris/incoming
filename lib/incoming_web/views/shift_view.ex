@@ -16,8 +16,9 @@ defmodule IncomingWeb.ShiftView do
   end
 
   def date_view(dt) do
-    {:ok, day_label} = Strftime.format(dt, "%a,  %b %d, %Y")
-    {:ok, time_label} = Strftime.format(dt, "%H:%M")
+    {:ok, e_dt} = DateTime.shift_zone(dt, "America/New_York") 
+    {:ok, day_label} = Strftime.format(e_dt, "%a,  %b %d, %Y")
+    {:ok, time_label} = Strftime.format(e_dt, "%H:%M")
     %{
       day_label: day_label,
       time_label: time_label,
@@ -29,6 +30,7 @@ defmodule IncomingWeb.ShiftView do
     dt
     |> start_of_day
     |> DateTime.add(day_offset * 24 * 60 * 60, :second)
+    |> DateTime.add(60 * 60 * 4, :second) # Looks good in eastern
     |> DateTime.add(half_hour_offset * 30 * 60, :second)
   end
 
