@@ -1,0 +1,11 @@
+<%= tag(:div, class: "#{class(:past, @shift_time.value)} shift-list-item") %>
+  <%= if !is_nil(@f) do %>
+    <%= checkbox @f, @shift_time.value, disabled: is_past(@shift_time.value) %>
+  <% end %>
+  <span class="day_label" %>
+    <%= @shift_time.day_label %> 
+  </span>
+  <span>
+    <%= @shift_time.time_label %>
+  </span>
+</div>

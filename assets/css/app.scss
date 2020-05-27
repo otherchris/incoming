@@ -32,9 +32,24 @@
 
 .shift-input-container {
   display: flex;
-  background-color: pink;
 }
 
 .day-list-container {
-  background-color: palegreen;
+  margin-left: 4rem;
+}
+
+ul.shift-picker-list {
+  list-style-type: none;
+}
+
+.shift-submit {
+  margin-left: 4rem;
+}
+
+.shift-list-item {
+  background-color: lightgreen;
+}
+
+.shift-list-item.past {
+  background-color: gray;
 }

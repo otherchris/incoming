@@ -18,7 +18,7 @@
               <li><a href="/register">Register</a></li>
             <% else %>
               <li>Hello, <%= user_or_nil(@conn).display_name %></li>
-              <li><a href="/live_dashboard">LiveDashboard</a></li>
+              <li><a href="/dashboard">Dashboard</a></li>
               <li><a href="/logout">Log Out</a></li>
             <% end %>
           </ul>

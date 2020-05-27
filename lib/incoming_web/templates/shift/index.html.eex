@@ -3,17 +3,17 @@
     <div class="shift-input-container">  
       <%= for day <- 0..2 do%>
         <div class="day-list-container">
-          <ul class="day-list">
-            <%= for shift_time <- shift_time_list(day) do%>
+          <%= for shift_time <- shift_time_list(day) do%>
+            <ul class="shift-picker-list">
               <li>
-                <%= shift_time.label %>
-                <%= checkbox f, shift_time.value %>
+                <%= render IncomingWeb.ShiftView, "_shift.html", f: f, shift_time: shift_time %>
               </li>
-            <% end %>
-          </ul>
+            </ul>
+          <% end %>
         </div>
       <% end %>
-      <%= submit "Sign Up!"%>
+      <br>
+      <%= submit "Sign Up!", class: "shift-submit"%>
     </div>
   <% end %>
 </div>

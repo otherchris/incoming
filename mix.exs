@@ -48,7 +48,8 @@ defmodule Incoming.MixProject do
       {:mix_test_watch, "~> 1.0", only: :dev, runtime: false},
       {:argon2_elixir, "~> 2.3"},
       {:guardian, "~> 2.1"},
-      {:ex_machina, "~> 2.4", only: :test}
+      {:ex_machina, "~> 2.4", only: :test},
+      {:timex, "~> 3.5"}
     ]
   end
 

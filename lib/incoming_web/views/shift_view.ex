@@ -1,9 +1,12 @@
 defmodule IncomingWeb.ShiftView do
   use IncomingWeb, :view
+  use Timex
 
-  @type date_view_type() :: %{label: String.t(), value: String.t()}
+  alias Timex.Format.DateTime.Formatters.Strftime
 
-  @spec shift_time_list(integer()) :: list(date_view_type)
+  alias Incoming.Shift
+
+
   def shift_time_list(days_in_future) do
     0..47
     |> Enum.map(fn n ->
@@ -12,15 +15,16 @@ defmodule IncomingWeb.ShiftView do
     end)
   end
 
-  @spec date_view(DateTime.t()) :: date_view_type()
   def date_view(dt) do
+    {:ok, day_label} = Strftime.format(dt, "%a,  %b %d, %Y")
+    {:ok, time_label} = Strftime.format(dt, "%H:%M")
     %{
-      label: DateTime.to_string(dt),
+      day_label: day_label,
+      time_label: time_label,
       value: DateTime.to_iso8601(dt)
     }
   end
 
-  @spec offset_datetime(DateTime.t(), integer(), integer()) :: String.t()
   def offset_datetime(dt, day_offset, half_hour_offset) do
     dt
     |> start_of_day
@@ -28,7 +32,6 @@ defmodule IncomingWeb.ShiftView do
     |> DateTime.add(half_hour_offset * 30 * 60, :second)
   end
 
-  @spec start_of_day(DateTime.t()) :: DateTime.t()
   def start_of_day(time) do
     time
     |> DateTime.to_iso8601()
@@ -40,4 +43,21 @@ defmodule IncomingWeb.ShiftView do
   end
 
   def drop_ok({:ok, a, 0}), do: a
+
+  def is_past(dts) do
+    {:ok, dt, _} = DateTime.from_iso8601(dts)
+    DateTime.utc_now() > dt
+  end
+
+  def class(:past, dts) do
+    if is_past(dts) do
+      "past"
+    else
+      ""
+    end
+  end
+
+  def sort_shifts(list_of_shifts) do
+    Enum.sort_by(list_of_shifts, fn(s) -> s.start end)
+  end
 end

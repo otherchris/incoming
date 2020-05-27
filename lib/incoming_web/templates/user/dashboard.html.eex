@@ -1,5 +1,9 @@
-<%= for shift <- @user.shifts do %>
-  <div>
-    <%= shift.start %>
-  </div>
-<% end %> 
+<h2>Your Shifts</h2>
+<ul class="shift-picker-list">
+  <%= for shift <- @user.shifts |> IncomingWeb.ShiftView.sort_shifts do %>
+    <li>
+      <%= render IncomingWeb.ShiftView, "_shift.html", f: nil, shift_time: IncomingWeb.ShiftView.date_view(shift.start) %> 
+    </li>
+  <% end %> 
+</ul>
+<a href="/shifts">Get Shifts</a>

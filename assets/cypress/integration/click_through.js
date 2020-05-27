@@ -52,7 +52,15 @@ context('Click through tour', () => {
     it('shifts page basically works', () => {
         cy.login(email, password);
         cy.visit('localhost:4000/shifts');
-        cy.get('input[type="checkbox"').first().click();
+        cy.get('input[type="checkbox"').last().click();
         cy.get('button').click();
+    });
+
+    it('dashboard page', () => {
+        cy.login(email, password);
+        cy.visit('localhost:4000/dashboard');
+        cy.contains('Your Shifts');
+        cy.contains('a', 'Get Shifts').click();
+        cy.url().should('include', 'shifts');
     });
 });

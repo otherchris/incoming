@@ -18,6 +18,6 @@ defmodule IncomingWeb.ShiftController do
       |> Enum.map(fn {sdt, _} -> DateTime.from_iso8601(sdt) end)
       |> Enum.each(fn {:ok, dt, _} -> Shift.insert(%{start: dt, user_id: user_id}) end)
 
-    redirect(conn, to: "/")
+    redirect(conn, to: "/dashboard")
   end
 end
