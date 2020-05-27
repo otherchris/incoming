@@ -15,7 +15,7 @@ defmodule IncomingWeb.SessionController do
       {:ok, user} ->
         conn
         |> Authentication.log_in(user)
-        |> redirect(to: "/shifts")
+        |> redirect(to: "/dashboard")
 
       {:error, :invalid_credentials} ->
         conn

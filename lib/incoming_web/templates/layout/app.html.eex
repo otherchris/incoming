@@ -13,9 +13,13 @@
       <section class="container">
         <nav role="navigation">
           <ul>
-            <li><a href="login">Log In</a></li>
-            <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
-              <li><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
+            <%= if user_or_nil(@conn) == nil do %>
+              <li><a href="/login">Log In</a></li>
+              <li><a href="/register">Register</a></li>
+            <% else %>
+              <li>Hello, <%= user_or_nil(@conn).display_name %></li>
+              <li><a href="/live_dashboard">LiveDashboard</a></li>
+              <li><a href="/logout">Log Out</a></li>
             <% end %>
           </ul>
         </nav>

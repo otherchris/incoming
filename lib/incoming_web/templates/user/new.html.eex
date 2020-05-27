@@ -7,10 +7,10 @@
       Email: <%= text_input f, :email%>
     <label>
     <label>
-      Password: <%= text_input f, :password %>
+      Password: <%= password_input f, :password %>
     <label>
     <label>
-      Confirm Password: <%= text_input f, :password_confirmation%>
+      Confirm Password: <%= password_input f, :password_confirmation%>
     <label>
     <%= submit "Create Account"%>
   <% end %>

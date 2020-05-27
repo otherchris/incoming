@@ -20,12 +20,15 @@ Cypress.Commands.add('login', (email, pw) => {
 
 context('Click through tour', () => {
     var email = makeemail();
+    var password = "penutbuter"
+
     it('shows the homepage', () => {
         cy.visit('localhost:4000');
         cy.contains('Incoming');
         cy.contains('Log In');
         cy.contains('Welcome to Incoming');
-    })
+    });
+
     it('register a new user', () => {
         cy.visit('localhost:4000/register');
         cy.get('#user_email')
@@ -33,18 +36,21 @@ context('Click through tour', () => {
         cy.get('#user_display_name')
             .type("Howdy Doody");
         cy.get('#user_password')
-            .type("a_password");
+            .type(password);
         cy.get('#user_password_confirmation')
-            .type("a_password");
+            .type(password);
         cy.get('button')
             .click();
-        cy.visit('localhost:4000/shifts');
     });
+
     it('log in', () => {
-        cy.login(email, "a_password");
+        cy.login(email, password);
+        cy.contains('Dashboard');
+        cy.url().should('include', 'dashboard');
     });
+
     it('shifts page basically works', () => {
-        cy.login(email, "a_password");
+        cy.login(email, password);
         cy.visit('localhost:4000/shifts');
         cy.get('input[type="checkbox"').first().click();
         cy.get('button').click();

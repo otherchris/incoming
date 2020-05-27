@@ -4,7 +4,7 @@
       Email: <%= text_input f, :email%>
     <label>
     <label>
-      Password: <%= text_input f, :password %>
+      Password: <%= password_input f, :password %>
     <label>
     <%= submit "Login"%>
   <% end %>

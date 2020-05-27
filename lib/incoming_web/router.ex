@@ -34,10 +34,10 @@ defmodule IncomingWeb.Router do
   scope "/", IncomingWeb do
     pipe_through [:browser, :guardian, :browser_auth]
 
-    #get "/dashboard", UserController, :dashboard
+    get "/dashboard", UserController, :dashboard
     get "/shifts", ShiftController, :index
     post "/shifts/sign-up", ShiftController, :sign_up
-    delete "/logout", SessionController, :delete
+    get "/logout", SessionController, :delete
   end
 
   # Other scopes may use custom stacks.
@@ -52,12 +52,12 @@ defmodule IncomingWeb.Router do
   # If your application does not have an admins-only section yet,
   # you can use Plug.BasicAuth to set up some basic authentication
   # as long as you are also using SSL (which you should anyway).
-  if Mix.env() in [:dev, :test] do
+  if Mix.env() in [:dev, :test, :prod] do
     import Phoenix.LiveDashboard.Router
 
     scope "/" do
-      pipe_through :browser
-      live_dashboard "/dashboard", metrics: IncomingWeb.Telemetry
+      pipe_through [:browser, :guardian, :browser_auth]
+      live_dashboard "/live_dashboard", metrics: IncomingWeb.Telemetry
     end
   end
 end
