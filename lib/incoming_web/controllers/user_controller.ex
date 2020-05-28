@@ -37,6 +37,9 @@ defmodule IncomingWeb.UserController do
       pending_phone_confirmation_code: "999999"
     })
 
+    pid = Process.whereis(:dialer)
+    IncomingDialer.send_sms(pid, "Your code, like all codes, is 999999", "+1#{user.phone}")
+
     conn
     |> render("new.html", confirm_phone: true, user_id: user.id)
   end
@@ -47,8 +50,9 @@ defmodule IncomingWeb.UserController do
       "code" => code
     } = params["phone_confirm"]
 
-    if conn.assigns.phone_confirm_code == code do
-      {:ok, user} = Repo.get(User, user_id)
+    user = Repo.get(User, user_id)
+
+    if user.pending_phone_confirmation_code == code do
       conn
       |> Authentication.log_in(user)
       |> redirect(to: "/dashboard")
