@@ -7,7 +7,7 @@ defmodule IncomingWeb.UserController do
   alias IncomingWeb.Authentication
 
   def new(conn, _params) do
-    render(conn, "new.html")
+    render(conn, "new.html", confirm_phone: false)
   end
 
   def dashboard(conn, _params) do
@@ -28,17 +28,35 @@ defmodule IncomingWeb.UserController do
       "phone" => phone
     } = params["user"]
 
-    {:ok, user} =
-      User.insert(%{
-        email: email,
-        password: password,
-        password_confirmation: password_confirmation,
-        display_name: display_name,
-        phone: phone
-      })
+    {:ok, user} = User.insert(%{
+      email: email,
+      password: password,
+      password_confirmation: password_confirmation,
+      display_name: display_name,
+      phone: phone,
+      pending_phone_confirmation_code: "999999"
+    })
 
     conn
-    |> Authentication.log_in(user)
-    |> redirect(to: "/")
+    |> render("new.html", confirm_phone: true, user_id: user.id)
   end
+
+  def confirm_phone_and_insert_user(conn, params) do
+    %{
+      "user_id" => user_id,
+      "code" => code
+    } = params["phone_confirm"]
+
+    if conn.assigns.phone_confirm_code == code do
+      {:ok, user} = Repo.get(User, user_id)
+      conn
+      |> Authentication.log_in(user)
+      |> redirect(to: "/dashboard")
+    else 
+      redirect(conn, to: "/register")
+    end
+  end
+
+
+
 end

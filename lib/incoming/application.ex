@@ -14,9 +14,9 @@ defmodule Incoming.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Incoming.PubSub},
       # Start the Endpoint (http/https)
-      IncomingWeb.Endpoint
-      # Start a worker by calling: Incoming.Worker.start_link(arg)
-      # {Incoming.Worker, arg}
+      IncomingWeb.Endpoint,
+      # Start a dialer
+      {IncomingDialer, name: :dialer}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

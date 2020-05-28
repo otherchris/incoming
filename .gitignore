@@ -38,5 +38,6 @@ npm-debug.log
 /assets/cypress/support
 /assets/cypress/plugins/*
 
+/config/test.secret.exs
 /config/dev.secret.exs
 /config/prod.secret.exs

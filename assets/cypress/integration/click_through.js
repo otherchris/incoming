@@ -43,6 +43,10 @@ context('Click through tour', () => {
             .type(password);
         cy.get('button')
             .click();
+        cy.get('#phone_confirm_code')
+            .type('999999');
+        cy.get('button')
+            .click();
     });
 
     it('log in', () => {

@@ -27,6 +27,7 @@ defmodule IncomingWeb.Router do
     get "/", PageController, :index
     get "/register", UserController, :new
     post "/users", UserController, :create
+    post "/confirm-phone", UserController, :confirm_phone_and_insert_user
     get "/login", SessionController, :new
     post "/session", SessionController, :create
   end

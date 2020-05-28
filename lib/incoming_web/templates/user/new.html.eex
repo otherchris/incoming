@@ -1,19 +1,30 @@
 <div>
-  <%= form_for @conn, "/users", [as: :user], fn f -> %>
-    <label>
-      Display name: <%= text_input f, :display_name%>
-    <label>
-    <label>
-      Email: <%= text_input f, :email%>
-    <label>
-    <label>
-      Phone: <%= text_input f, :phone%>
-    <label>
-    <label>
-      Password: <%= password_input f, :password %>
-    <label>
-    <label>
-      Confirm Password: <%= password_input f, :password_confirmation%>
-    <label>
-    <%= submit "Create Account"%>
+  <%= if @confirm_phone do %>
+    <%= form_for @conn, "/confirm-phone", [as: :phone_confirm], fn f -> %>
+      <label>
+        Type SMS confirmation code: <%= text_input f, :code%>
+      <label>
+      <%= hidden_input f, :user_id, value: @user_id%>
+      <%= submit "Confirm Code"%>
+    <% end %>
+  <% else %>
+    <%= form_for @conn, "/users", [as: :user], fn f -> %>
+      <label>
+        Display name: <%= text_input f, :display_name%>
+      <label>
+      <label>
+        Email: <%= text_input f, :email%>
+      <label>
+      <label>
+        Phone: <%= text_input f, :phone%>
+      <label>
+      <label>
+        Password: <%= password_input f, :password %>
+      <label>
+      <label>
+        Confirm Password: <%= password_input f, :password_confirmation%>
+      <label>
+      <%= submit "Create Account"%>
+    <% end %>
   <% end %>
+</div>
