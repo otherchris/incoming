@@ -42,4 +42,5 @@ config :incoming, IncomingWeb.Endpoint,
 
 config :incoming_dialer,
   account_sid: System.get_env("DIALER_ACCOUNT_SID"),
-  api_key: System.get_env("DIALER_API_KEY")
+  api_key: System.get_env("DIALER_API_KEY"),
+  from_number: System.get_env("DIALER_FROM_NUMBER")
