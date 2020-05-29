@@ -11,19 +11,19 @@
     <%= form_for @conn, "/users", [as: :user], fn f -> %>
       <label>
         Display name: <%= text_input f, :display_name%>
-      <label>
+      </label>
       <label>
         Email: <%= text_input f, :email%>
-      <label>
+      </label>
       <label>
         Phone: <%= text_input f, :phone%>
-      <label>
+      </label>
       <label>
         Password: <%= password_input f, :password %>
-      <label>
+      </label>
       <label>
         Confirm Password: <%= password_input f, :password_confirmation%>
-      <label>
+      </label>
       <%= submit "Create Account"%>
     <% end %>
   <% end %>

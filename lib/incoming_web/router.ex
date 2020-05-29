@@ -21,6 +21,12 @@ defmodule IncomingWeb.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/api/hooks", IncomingWeb do
+    pipe_through :api
+
+    post "/incoming-voice", HooksController, :incoming_voice
+  end
+
   scope "/", IncomingWeb do
     pipe_through [:browser, :guardian]
 
