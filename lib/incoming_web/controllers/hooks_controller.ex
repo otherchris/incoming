@@ -6,6 +6,9 @@ defmodule IncomingWeb.HooksController do
   def incoming_voice(conn, params) do
     pid = Process.whereis(:dialer)
     resp = IncomingDialer.incoming_call(:dialer, params)
-    send_resp(conn, 200, resp)
+    conn
+    |> put_resp_header("content-type", "text/xml")
+    |> send_resp(200, resp)
+    |> IO.inspect
   end
 end
