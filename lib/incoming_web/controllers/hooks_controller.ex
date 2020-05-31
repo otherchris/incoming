@@ -11,4 +11,12 @@ defmodule IncomingWeb.HooksController do
     |> send_resp(200, resp)
     |> IO.inspect
   end
+
+  def end_call(conn, params) do
+    pid = Process.whereis(:dialer)
+
+    resp = IncomingDialer.end_call(:dialer, params)
+    conn
+    |> send_resp(200, ":ok")
+  end
 end

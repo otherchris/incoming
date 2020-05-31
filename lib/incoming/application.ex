@@ -16,13 +16,14 @@ defmodule Incoming.Application do
       # Start the Endpoint (http/https)
       IncomingWeb.Endpoint,
       # Start a dialer
-      {IncomingDialer, name: :dialer}
+      #{{IncomingDialer, %{url_base: "yo"}},  name: :dialer}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Incoming.Supervisor]
     Supervisor.start_link(children, opts)
+    IncomingDialer.start_link(%{url_base: "http://488f59598b46.ngrok.io/api/hooks"}, name: :dialer)
   end
 
   # Tell Phoenix to update the endpoint configuration

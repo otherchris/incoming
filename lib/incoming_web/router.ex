@@ -25,6 +25,7 @@ defmodule IncomingWeb.Router do
     pipe_through :api
 
     post "/incoming-voice", HooksController, :incoming_voice
+    post "/end-call/:call_number", HooksController, :end_call
   end
 
   scope "/", IncomingWeb do
