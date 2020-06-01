@@ -16,7 +16,7 @@ defmodule Incoming.Application do
       # Start the Endpoint (http/https)
       IncomingWeb.Endpoint,
       # Start a dialer
-      #{{IncomingDialer, %{url_base: "yo"}},  name: :dialer}
+      {Incoming.Shifter,  name: :shifter}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
