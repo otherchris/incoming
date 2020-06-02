@@ -24,7 +24,7 @@ defmodule Incoming.Application do
     opts = [strategy: :one_for_one, name: Incoming.Supervisor]
     Supervisor.start_link(children, opts)
 
-    IncomingDialer.start_link(%{url_base: "http://488f59598b46.ngrok.io/api/hooks"}, name: :dialer)
+    IncomingDialer.start_link(%{url_base: "https://nameless-forest-48275.herokuapp.com/api/hooks"}, name: :dialer)
   end
 
   # Tell Phoenix to update the endpoint configuration
