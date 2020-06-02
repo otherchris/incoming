@@ -28,14 +28,15 @@ defmodule IncomingWeb.UserController do
       "phone" => phone
     } = params["user"]
 
-    {:ok, user} = User.insert(%{
-      email: email,
-      password: password,
-      password_confirmation: password_confirmation,
-      display_name: display_name,
-      phone: phone,
-      pending_phone_confirmation_code: "999999"
-    })
+    {:ok, user} =
+      User.insert(%{
+        email: email,
+        password: password,
+        password_confirmation: password_confirmation,
+        display_name: display_name,
+        phone: phone,
+        pending_phone_confirmation_code: "999999"
+      })
 
     pid = Process.whereis(:dialer)
     IncomingDialer.send_sms(pid, "Your code, like all codes, is 999999", "+1#{user.phone}")
@@ -56,11 +57,8 @@ defmodule IncomingWeb.UserController do
       conn
       |> Authentication.log_in(user)
       |> redirect(to: "/dashboard")
-    else 
+    else
       redirect(conn, to: "/register")
     end
   end
-
-
-
 end

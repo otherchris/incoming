@@ -21,8 +21,16 @@ defmodule Incoming.User do
 
   def changeset(struct, params) do
     params = clean_phone(params)
+
     struct
-    |> cast(params, [:email, :password, :display_name, :phone, :pending_phone_confirmation_code, :phone_confirmed])
+    |> cast(params, [
+      :email,
+      :password,
+      :display_name,
+      :phone,
+      :pending_phone_confirmation_code,
+      :phone_confirmed
+    ])
     |> validate_required([:email, :password, :display_name, :phone])
     |> validate_length(:phone, is: 10)
     |> validate_confirmation(:password, required: true)

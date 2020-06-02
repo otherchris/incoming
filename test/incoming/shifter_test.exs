@@ -16,13 +16,14 @@ defmodule Incoming.ShifterTest do
 
   describe "apply phone numbers for shift" do
     test "apply numbers", %{d: d, s: s} do
-      shift_time = 
-        DateTime.utc_now() 
-        |> DateTime.add(10000, :second) 
-        |> Map.put(:minute, 30) 
+      shift_time =
+        DateTime.utc_now()
+        |> DateTime.add(10000, :second)
+        |> Map.put(:minute, 30)
         |> Map.put(:second, 0)
         |> DateTime.truncate(:second)
-        |> IO.inspect
+        |> IO.inspect()
+
       %{id: id1} = insert(:user, %{phone: "phone1"})
       %{id: id2} = insert(:user, %{phone: "phone2"})
       insert(:shift, %{user_id: id1, start: shift_time})

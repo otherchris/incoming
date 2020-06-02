@@ -17,7 +17,6 @@ defmodule Incoming.Shifter do
     GenServer.start_link(__MODULE__, :ok, opts)
   end
 
-
   # Server callbacks
 
   @impl true
@@ -27,25 +26,29 @@ defmodule Incoming.Shifter do
   end
 
   def handle_info(:tick, state) do
-    if rem(Now.utc_now.minute, 30) == 0 do
+    if rem(Now.utc_now().minute, 30) == 0 do
       GenServer.cast(self(), :shift)
     end
+
     Process.send_after(self(), :tick, 60 * 1000, [])
     {:noreply, state}
   end
 
   def handle_cast(:shift, state) do
-    start = 
+    start =
       Now.utc_now()
       |> DateTime.truncate(:second)
       |> Map.put(:second, 0)
+
     {:ok, shifts} = Shift.get_by_start(start)
-    phones = 
+
+    phones =
       shifts
       |> Enum.map(&Map.get(&1, :user_id))
       |> Enum.map(&User.get_user(&1))
-      |> Enum.map(&Map.get(&1, :phone)) 
-    IO.inspect "applying new numbers at #{DateTime.utc_now() |> DateTime.to_string()}"
+      |> Enum.map(&Map.get(&1, :phone))
+
+    IO.inspect("applying new numbers at #{DateTime.utc_now() |> DateTime.to_string()}")
     pid = Process.whereis(:dialer)
     IncomingDialer.set_incoming_numbers(pid, phones)
     {:noreply, state}

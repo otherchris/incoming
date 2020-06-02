@@ -16,9 +16,9 @@ defmodule IncomingWeb.UserControllerTest do
     test "inserts the user" do
       before_count = Repo.all(User) |> length
 
-      conn = 
-      build_conn()
-      |> post("/users", %{"user" => @good_user})
+      conn =
+        build_conn()
+        |> post("/users", %{"user" => @good_user})
 
       after_count = Repo.all(User) |> length
       assert before_count + 1 == after_count
