@@ -12,6 +12,11 @@ defmodule Incoming.Factory do
   end
 
   def shift_factory do
-    %Incoming.Shift{}
+    %Incoming.Shift{
+      start: DateTime.utc_now(),
+      stop: DateTime.utc_now(),
+      phone: "5025551111",
+      user_id: "REPLACE"
+    }
   end
 end

@@ -1,20 +1,17 @@
 <div>
   All times Eastern
-  <%= form_for @conn, "/shifts/sign-up", [as: :shifts], fn f -> %>
-    <div class="shift-input-container">  
-      <%= for day <- 0..2 do%>
-        <div class="day-list-container">
-          <%= for shift_time <- shift_time_list(day) do%>
-            <ul class="shift-picker-list">
-              <li>
-                <%= render IncomingWeb.ShiftView, "_shift.html", f: f, shift_time: shift_time %>
-              </li>
-            </ul>
-          <% end %>
-        </div>
-      <% end %>
-      <br>
-      <%= submit "Sign Up!", class: "shift-submit"%>
-    </div>
+  <%= form_for @conn, "/shifts/sign-up", [as: :shift], fn f -> %>
+    <label>
+      Start <%= datetime_select f, :start %>
+    </label>
+    <label>
+      Stop <%= datetime_select f, :stop %>
+    </label>
+    <%= submit "Sign Up!", class: "shift-submit"%>
+  <% end %>
+
+  <%= form_for @conn, "/shifts/switch", [as: :switch], fn f -> %>
+    <%= submit "ON", name: "on"%>
+    <%= submit "OFF", name: "off"%>
   <% end %>
 </div>

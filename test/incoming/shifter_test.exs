@@ -6,35 +6,26 @@ defmodule Incoming.ShifterTest do
 
   import Incoming.Factory
 
-  alias Incoming.Now
-
   setup do
     shifter = Process.whereis(:shifter)
     dialer = Process.whereis(:dialer)
     %{s: shifter, d: dialer}
   end
 
-  describe "apply phone numbers for shift" do
+  describe "add a phone number for a shift" do
     test "apply numbers", %{d: d, s: s} do
-      shift_time =
+      shift_time = 
         DateTime.utc_now()
-        |> DateTime.add(10000, :second)
-        |> Map.put(:minute, 30)
-        |> Map.put(:second, 0)
         |> DateTime.truncate(:second)
-        |> IO.inspect()
+        |> Map.put(:second, 0)
 
-      %{id: id1} = insert(:user, %{phone: "phone1"})
-      %{id: id2} = insert(:user, %{phone: "phone2"})
-      insert(:shift, %{user_id: id1, start: shift_time})
-      insert(:shift, %{user_id: id1, start: shift_time |> DateTime.add(1, :second)})
+      %{id: id1} = insert(:user)
+      %{id: id2} = insert(:user)
+      insert(:shift, %{user_id: id1, start: shift_time, phone: "phone1"})
 
-      shift_time
-      |> Now.set_now()
-
-      Process.send(s, :tick, [])
-      :sys.get_state(s)
+      Process.send(s, :shift, [])
       Process.sleep(5)
+      :sys.get_state(s)
       %{incoming_numbers: inc_num} = :sys.get_state(d)
       assert inc_num == ["phone1"]
     end

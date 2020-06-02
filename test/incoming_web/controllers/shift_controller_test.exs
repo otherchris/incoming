@@ -25,15 +25,29 @@ defmodule IncomingWeb.ShiftControllerTest do
       build_conn()
       |> Authentication.log_in(user)
       |> post("/shifts/sign-up", %{
-        "shifts" => %{@time1 => "true", @time2 => "false", @time3 => "true"}
+        "shift" => %{
+          "start" => %{
+            "year" => "2020",
+            "month" => "1",
+            "day" => "1",
+            "hour" => "13",
+            "minute" => "5"
+          },
+          "stop" => %{
+            "year" => "2020",
+            "month" => "1",
+            "day" => "1",
+            "hour" => "14",
+            "minute" => "6"
+          }
+        }
       })
 
       after_count = Repo.all(Shift) |> length
-      assert after_count == before_count + 2
-
-      {:ok, dtime1, _} = DateTime.from_iso8601(@time1)
-      {:ok, [shift]} = Shift.get_by_start(@time1)
-      assert dtime1 == shift.start
+      assert after_count == before_count + 1
+      
+      {:ok, dt, 0} = DateTime.from_iso8601("2020-01-01T18:05:00Z") |> IO.inspect
+      {:ok, [shift]} = Shift.get_by_start(dt)
     end
   end
 end

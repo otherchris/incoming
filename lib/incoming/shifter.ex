@@ -21,36 +21,36 @@ defmodule Incoming.Shifter do
 
   @impl true
   def init(:ok) do
-    Process.send(self(), :tick, [])
+    Process.send(self(), :shift, [])
     {:ok, %{}}
   end
 
-  def handle_info(:tick, state) do
-    if rem(Now.utc_now().minute, 30) == 0 do
-      GenServer.cast(self(), :shift)
-    end
-
-    Process.send_after(self(), :tick, 60 * 1000, [])
-    {:noreply, state}
-  end
-
-  def handle_cast(:shift, state) do
-    start =
-      Now.utc_now()
+  def handle_info(:shift, state) do
+    now =
+      DateTime.utc_now()
       |> DateTime.truncate(:second)
       |> Map.put(:second, 0)
 
-    {:ok, shifts} = Shift.get_by_start(start)
+    {:ok, start_shifts} = Shift.get_by_start(now)
+    {:ok, stop_shifts} = Shift.get_by_stop(now)
 
-    phones =
-      shifts
-      |> Enum.map(&Map.get(&1, :user_id))
-      |> Enum.map(&User.get_user(&1))
+    start_phones =
+      start_shifts
+      |> Enum.map(&Map.get(&1, :phone))
+    stop_phones =
+      stop_shifts
       |> Enum.map(&Map.get(&1, :phone))
 
-    IO.inspect("applying new numbers at #{DateTime.utc_now() |> DateTime.to_string()}")
-    pid = Process.whereis(:dialer)
-    IncomingDialer.set_incoming_numbers(pid, phones)
+    IO.inspect("adding #{start_phones} and removing #{stop_phones} at #{DateTime.utc_now() |> DateTime.to_string()}")
+    d = Process.whereis(:dialer)
+
+    start_phones
+    |> Enum.each(&IncomingDialer.add_incoming_number(d, &1))
+    stop_phones
+    |> Enum.each(&IncomingDialer.remove_incoming_number(d, &1))
+
+    Process.send_after(self(), :shift, 60_000, [])    
+
     {:noreply, state}
   end
 end

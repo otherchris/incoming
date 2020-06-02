@@ -44,6 +44,7 @@ defmodule IncomingWeb.Router do
 
     get "/dashboard", UserController, :dashboard
     get "/shifts", ShiftController, :index
+    post "/shifts/switch", ShiftController, :switch
     post "/shifts/sign-up", ShiftController, :sign_up
     get "/logout", SessionController, :delete
   end
