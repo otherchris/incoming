@@ -9,7 +9,6 @@ defmodule IncomingWeb.HooksController do
     conn
     |> put_resp_header("content-type", "text/xml")
     |> send_resp(200, resp)
-    |> IO.inspect
   end
 
   def end_call(conn, params) do

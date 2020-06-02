@@ -4,7 +4,7 @@ defmodule Incoming.Now do
   alias Incoming.Environment, as: E
 
   def utc_now() do
-    if E.env() == 'test' do
+    if E.env() == :test do
       E.now()
     else
       DateTime.utc_now()

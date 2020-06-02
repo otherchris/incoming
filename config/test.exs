@@ -22,6 +22,6 @@ config :incoming, IncomingWeb.Endpoint,
 config :logger, level: :warn
 
 config :incoming, 
-  now: DateTime.now()
+  now: DateTime.utc_now()
 
 import_config "test.secret.exs"

@@ -10,4 +10,8 @@ defmodule Incoming.Factory do
       phone: "(502) 555-1234"
     }
   end
+
+  def shift_factory do
+    %Incoming.Shift{}
+  end
 end
