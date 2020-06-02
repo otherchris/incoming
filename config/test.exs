@@ -21,4 +21,7 @@ config :incoming, IncomingWeb.Endpoint,
 # Print only warnings and errors during test
 config :logger, level: :warn
 
+config :incoming, 
+  now: DateTime.now()
+
 import_config "test.secret.exs"

@@ -3,6 +3,7 @@ defmodule Incoming.Shifter do
 
   use GenServer
 
+  alias Incoming.Now
   alias Incoming.Shift
   alias Incoming.User
 
@@ -21,44 +22,32 @@ defmodule Incoming.Shifter do
 
   @impl true
   def init(:ok) do
-    Process.send(self(), :shift, [])
+    Process.send(self(), :tick, [])
     {:ok, %{}}
   end
 
-  def handle_info(:shift, state) do
-    {start, delay} = time_and_delay()
+  def handle_info(:tick, state) do
+    if rem(Now.utc_now.minute, 30) == 0 do
+      GenServer.cast(self(), :shift)
+    end
+    Process.send_after(self(), :tick, 60 * 1000, [])
+    {:noreply, state}
+  end
+
+  def handle_cast(:shift, state) do
+    start = 
+      Now.utc_now()
+      |> DateTime.truncate(:second)
+      |> Map.put(:second, 0)
     {:ok, shifts} = Shift.get_by_start(start)
     phones = 
       shifts
       |> Enum.map(&Map.get(&1, :user_id))
       |> Enum.map(&User.get_user(&1))
       |> Enum.map(&Map.get(&1, :phone)) 
-    Process.send_after(self(), {:numbers, phones}, 5, [])
-    Process.send_after(self(), :shift, 30 * 60 * 60 * 1000)
-    {:noreply, state}
-  end
-
-  def handle_info({:numbers, phones}, state) do
     IO.inspect "applying new numbers at #{DateTime.utc_now() |> DateTime.to_string()}"
     pid = Process.whereis(:dialer)
     IncomingDialer.set_incoming_numbers(pid, phones)
     {:noreply, state}
-  end
-
-  defp time_and_delay do
-    now = DateTime.utc_now
-    next = DateTime.utc_now
-    next = 
-      if now.minute > 30 do
-        next
-        |> Map.put(:second, 0)
-        |> Map.put(:minute, 0)
-        |> Map.put(:hour, DateTime.add(now, 60 * 60, :second).hour)
-      else
-        Map.put(next, :minute, 30)
-      end
-    next = DateTime.truncate(next, :second)
-    delta = DateTime.diff(next, now, :millisecond)
-    {next, delta}
   end
 end
