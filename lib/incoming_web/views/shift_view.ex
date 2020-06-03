@@ -4,8 +4,6 @@ defmodule IncomingWeb.ShiftView do
 
   alias Timex.Format.DateTime.Formatters.Strftime
 
-  alias Incoming.Shift
-
   def date_view(dt) do
     {:ok, e_dt} = DateTime.shift_zone(dt, "America/New_York")
     {:ok, day_label} = Strftime.format(e_dt, "%a,  %b %-d, %Y")

@@ -10,7 +10,7 @@
     <%= submit "Sign Up!", class: "shift-submit"%>
   <% end %>
 
-  <%= form_for @conn, "/shifts/switch", [as: :switch], fn f -> %>
+  <%= form_for @conn, "/shifts/switch", [as: :switch], fn _f -> %>
     <%= submit "ON", name: "on"%>
     <%= submit "OFF", name: "off"%>
   <% end %>

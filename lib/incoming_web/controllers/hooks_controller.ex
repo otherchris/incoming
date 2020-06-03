@@ -4,8 +4,8 @@ defmodule IncomingWeb.HooksController do
   use IncomingWeb, :controller
 
   def incoming_voice(conn, params) do
-    pid = Process.whereis(:dialer)
-    resp = IncomingDialer.incoming_call(:dialer, params)
+    d = Process.whereis(:dialer)
+    resp = IncomingDialer.incoming_call(d, params)
 
     conn
     |> put_resp_header("content-type", "text/xml")
@@ -13,9 +13,9 @@ defmodule IncomingWeb.HooksController do
   end
 
   def end_call(conn, params) do
-    pid = Process.whereis(:dialer)
+    d = Process.whereis(:dialer)
 
-    resp = IncomingDialer.end_call(:dialer, params)
+    IncomingDialer.end_call(d, params)
 
     conn
     |> send_resp(200, ":ok")

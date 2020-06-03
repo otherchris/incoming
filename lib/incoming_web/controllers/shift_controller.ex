@@ -4,11 +4,11 @@ defmodule IncomingWeb.ShiftController do
   alias Incoming.Shift
   alias IncomingWeb.Authentication
 
-  def index(conn, params) do
+  def index(conn, _params) do
     render(conn, "index.html")
   end
 
-  def sign_up(conn, params = %{"shift" => %{"start" => start, "stop" => stop}}) do
+  def sign_up(conn, %{"shift" => %{"start" => start, "stop" => stop}}) do
     user = Authentication.get_current_user(conn)
 
     {:ok, start} = datetime_from_html_dt(start) |> DateTime.shift_zone("Etc/UTC")
@@ -19,14 +19,14 @@ defmodule IncomingWeb.ShiftController do
     redirect(conn, to: "/dashboard")
   end
 
-  def switch(conn, params = %{"off" => _}) do
+  def switch(conn, %{"off" => _}) do
     %{phone: phone} = Authentication.get_current_user(conn)
     pid = Process.whereis(:dialer)
     IncomingDialer.remove_incoming_number(pid, phone)
     redirect(conn, to: "/shifts")
   end
 
-  def switch(conn, params = %{"on" => _}) do
+  def switch(conn, %{"on" => _}) do
     %{phone: phone} = Authentication.get_current_user(conn)
     pid = Process.whereis(:dialer)
     IncomingDialer.add_incoming_number(pid, phone)

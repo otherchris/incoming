@@ -3,9 +3,7 @@ defmodule Incoming.Shifter do
 
   use GenServer
 
-  alias Incoming.Now
   alias Incoming.Shift
-  alias Incoming.User
 
   # Client API
 
@@ -25,6 +23,7 @@ defmodule Incoming.Shifter do
     {:ok, %{}}
   end
 
+  @impl true
   def handle_info(:shift, state) do
     now =
       DateTime.utc_now()
