@@ -61,7 +61,7 @@ defmodule Incoming.User do
     Repo.all(Ecto.assoc(user, :shifts))
   end
 
-  defp put_encrypted_password(%{valid?: true, changeset = changes: %{password: pw}}) do
+  defp put_encrypted_password(changeset = %{valid?: true, changes: %{password: pw}}) do
     put_change(changeset, :hashed_password, Argon2.hash_pwd_salt(pw))
   end
 
