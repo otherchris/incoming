@@ -18,13 +18,12 @@ defmodule IncomingWeb.ShiftView do
 
   def drop_ok({:ok, a, 0}), do: a
 
-  def is_past(dts) do
-    {:ok, dt, _} = DateTime.from_iso8601(dts)
+  def is_past(dt) do
     DateTime.utc_now() > dt
   end
 
-  def class(:past, dts) do
-    if is_past(dts) do
+  def class(:past, dt) do
+    if DateTime.compare(dt, DateTime.utc_now()) == :lt do
       "past"
     else
       ""

@@ -1,18 +1,20 @@
-<%= tag(:div, class: "#{class(:past, @start_time.value)} shift-list-item") %>
-  <span>
-    <span class="day_label" %>
-      <%= @start_time.day_label %> 
+<%= tag(:div, class: "#{class(:past, @start_time_dt)} shift-list-item") %>
+  <span class="shift-span">
+    <span>
+      <span class="day_label" %>
+        <%= @start_time.day_label %> 
+      </span>
+      <span>
+        <%= @start_time.time_label %>
+      </span>
     </span>
     <span>
-      <%= @start_time.time_label %>
-    </span>
-  </span>
-  <span>
-    <span class="day_label" %>
-      <%= @stop_time.day_label %> 
-    </span>
-    <span>
-      <%= @stop_time.time_label %>
+      <span class="day_label" %>
+        <%= @stop_time.day_label %> 
+      </span>
+      <span>
+        <%= @stop_time.time_label %>
+      </span>
     </span>
   </span>
 </div>

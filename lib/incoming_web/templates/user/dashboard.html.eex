@@ -1,8 +1,14 @@
 <h2>Your Shifts</h2>
-<ul class="shift-picker-list">
+<ul class="shift-list">
+  <li>
+    <span class="shift-span">
+      <span> Start </span>
+      <span> Stop </span>
+    </span>
+  <li>
   <%= for shift <- @user.shifts |> IncomingWeb.ShiftView.sort_shifts do %>
     <li>
-      <%= render IncomingWeb.ShiftView, "_shift.html", f: nil, start_time: IncomingWeb.ShiftView.date_view(shift.start), stop_time: IncomingWeb.ShiftView.date_view(shift.stop) %> 
+      <%= render IncomingWeb.ShiftView, "_shift.html", f: nil, start_time_dt: shift.start, start_time: IncomingWeb.ShiftView.date_view(shift.start), stop_time: IncomingWeb.ShiftView.date_view(shift.stop) %> 
     </li>
   <% end %> 
 </ul>

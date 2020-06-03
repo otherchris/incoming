@@ -30,20 +30,8 @@
   display: none;
 }
 
-.shift-input-container {
-  display: flex;
-}
-
-.day-list-container {
-  margin-left: 4rem;
-}
-
-ul.shift-picker-list {
-  list-style-type: none;
-}
-
-.shift-submit {
-  margin-left: 4rem;
+ul.shift-list {
+  list-style: none;
 }
 
 .shift-list-item {
@@ -52,4 +40,10 @@ ul.shift-picker-list {
 
 .shift-list-item.past {
   background-color: gray;
+}
+
+span.shift-span {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
