@@ -3,8 +3,8 @@ defmodule Incoming.ShiftTest do
 
   use Incoming.DataCase
 
-  alias Incoming.Shift
   alias Incoming.Repo
+  alias Incoming.Shift
 
   import Incoming.Factory
 

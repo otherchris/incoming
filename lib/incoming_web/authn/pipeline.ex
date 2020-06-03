@@ -1,4 +1,5 @@
 defmodule IncomingWeb.Authentication.Pipeline do
+  @moduledoc false
   use Guardian.Plug.Pipeline,
     otp_app: :incoming,
     error_handler: IncomingWeb.Authentication.ErrorHandler,

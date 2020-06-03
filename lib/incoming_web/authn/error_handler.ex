@@ -1,4 +1,5 @@
 defmodule IncomingWeb.Authentication.ErrorHandler do
+  @moduledoc false
   use IncomingWeb, :controller
 
   @behaviour Guardian.Plug.ErrorHandler

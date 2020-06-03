@@ -1,5 +1,5 @@
 defmodule Incoming.Factory do
-  # with Ecto
+  @moduledoc false
   use ExMachina.Ecto, repo: Incoming.Repo
 
   def user_factory do

@@ -6,11 +6,11 @@ function makeemail() {
     for (var i = 0; i < 10; i++) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
-    return result + "@example.com";
+    return result + '@example.com';
 }
 
 Cypress.Commands.add('login', (email, pw) => {
-    cy.visit("localhost:4000/login");
+    cy.visit('localhost:4000/login');
     cy.get('#user_email')
         .type(email);
     cy.get('#user_password')
@@ -20,7 +20,7 @@ Cypress.Commands.add('login', (email, pw) => {
 
 context('Click through tour', () => {
     var email = makeemail();
-    var password = "penutbuter"
+    var password = 'penutbuter';
 
     it('shows the homepage', () => {
         cy.visit('localhost:4000');
@@ -34,9 +34,9 @@ context('Click through tour', () => {
         cy.get('#user_email')
             .type(email);
         cy.get('#user_display_name')
-            .type("Howdy Doody");
+            .type('Howdy Doody');
         cy.get('#user_phone')
-            .type("502x555x1234");
+            .type('502x555x1234');
         cy.get('#user_password')
             .type(password);
         cy.get('#user_password_confirmation')
@@ -69,7 +69,7 @@ context('Click through tour', () => {
         cy.get('select#shift_stop_hour').select('3');
         cy.get('select#shift_stop_minute').select('3');
         cy.get('button')
-            .contains("Sign Up")
+            .contains('Sign Up')
             .click();
         cy.url().should('include', 'dashboard');
         cy.contains('Feb 2, 2020');
@@ -77,12 +77,12 @@ context('Click through tour', () => {
 
         cy.visit('localhost:4000/shifts');
         cy.get('button')
-            .contains("ON")
+            .contains('ON')
             .click();
         cy.contains('Calls are ON');
         cy.visit('localhost:4000/shifts');
         cy.get('button')
-            .contains("OFF")
+            .contains('OFF')
             .click();
         cy.contains('Calls are OFF');
     });

@@ -20,7 +20,7 @@ defmodule IncomingWeb.Authentication do
     __MODULE__.Plug.sign_in(conn, user)
   end
 
-  def authenticate(%User{} = user, password) do
+  def authenticate(user = %User{}, password) do
     authenticate(
       user,
       password,

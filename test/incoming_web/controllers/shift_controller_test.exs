@@ -48,7 +48,7 @@ defmodule IncomingWeb.ShiftControllerTest do
       after_count = Repo.all(Shift) |> length
       assert after_count == before_count + 1
 
-      {:ok, dt, 0} = DateTime.from_iso8601("2020-01-01T17:05:00Z") |> IO.inspect()
+      {:ok, dt, 0} = DateTime.from_iso8601("2020-01-01T17:05:00Z")
       {:ok, [shift]} = Shift.get_by_start(dt)
     end
   end

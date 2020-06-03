@@ -3,8 +3,8 @@ defmodule Incoming.UserTest do
 
   use Incoming.DataCase
 
-  alias Incoming.User
   alias Incoming.Repo
+  alias Incoming.User
 
   @good_user %{
     display_name: "Guy Incognito",

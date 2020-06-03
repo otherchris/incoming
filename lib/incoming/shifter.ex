@@ -41,12 +41,6 @@ defmodule Incoming.Shifter do
       stop_shifts
       |> Enum.map(&Map.get(&1, :phone))
 
-    IO.inspect(
-      "adding #{start_phones} and removing #{stop_phones} at #{
-        DateTime.utc_now() |> DateTime.to_string()
-      }"
-    )
-
     d = Process.whereis(:dialer)
 
     start_phones

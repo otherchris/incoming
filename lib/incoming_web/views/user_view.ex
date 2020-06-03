@@ -3,6 +3,4 @@ defmodule IncomingWeb.UserView do
 
   use IncomingWeb, :view
 
-  def get_my_shifts() do
-  end
 end

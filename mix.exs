@@ -51,6 +51,7 @@ defmodule Incoming.MixProject do
       {:ex_machina, "~> 2.4", only: :test},
       {:timex, "~> 3.5"},
       {:tzdata, "~> 1.0.1"},
+      {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
       {:incoming_dialer, git: "https://github.com/otherchris/incoming_dialer.git", tag: "0.5.0"}
     ]
   end
