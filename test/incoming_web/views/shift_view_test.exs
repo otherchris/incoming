@@ -3,5 +3,4 @@ defmodule IncomingWeb.ShiftViewTest do
   use ExUnit.Case
 
   doctest IncomingWeb.ShiftView
-
 end

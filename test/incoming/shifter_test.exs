@@ -9,12 +9,13 @@ defmodule Incoming.ShifterTest do
   setup do
     shifter = Process.whereis(:shifter)
     dialer = Process.whereis(:dialer)
+    IncomingDialer.set_incoming_numbers(dialer, [])
     %{s: shifter, d: dialer}
   end
 
   describe "add a phone number for a shift" do
     test "apply numbers", %{d: d, s: s} do
-      shift_time = 
+      shift_time =
         DateTime.utc_now()
         |> DateTime.truncate(:second)
         |> Map.put(:second, 0)
@@ -24,7 +25,7 @@ defmodule Incoming.ShifterTest do
       insert(:shift, %{user_id: id1, start: shift_time, phone: "phone1"})
 
       Process.send(s, :shift, [])
-      Process.sleep(5)
+      Process.sleep(10)
       :sys.get_state(s)
       %{incoming_numbers: inc_num} = :sys.get_state(d)
       assert inc_num == ["phone1"]

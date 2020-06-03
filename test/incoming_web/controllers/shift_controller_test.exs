@@ -14,8 +14,10 @@ defmodule IncomingWeb.ShiftControllerTest do
   @nottime "kljdsic"
 
   setup do
+    d = Process.whereis(:dialer)
+    IncomingDialer.set_incoming_numbers(d, [])
     user = insert(:user)
-    %{user: user}
+    %{user: user, d: d}
   end
 
   describe "post /shifts/sign-up" do
@@ -45,9 +47,31 @@ defmodule IncomingWeb.ShiftControllerTest do
 
       after_count = Repo.all(Shift) |> length
       assert after_count == before_count + 1
-      
-      {:ok, dt, 0} = DateTime.from_iso8601("2020-01-01T17:05:00Z") |> IO.inspect
+
+      {:ok, dt, 0} = DateTime.from_iso8601("2020-01-01T17:05:00Z") |> IO.inspect()
       {:ok, [shift]} = Shift.get_by_start(dt)
+    end
+  end
+
+  describe "post /shifts/switch" do
+    test "switch on", %{user: user, d: d} do
+      build_conn
+      |> Authentication.log_in(user)
+      |> post("/shifts/switch", %{"on" => ""})
+
+      %{incoming_numbers: inc_nums} = :sys.get_state(d)
+      assert Enum.member?(inc_nums, user.phone)
+    end
+
+    test "switch off", %{user: user, d: d} do
+      IncomingDialer.add_incoming_number(d, user.phone)
+
+      build_conn
+      |> Authentication.log_in(user)
+      |> post("/shifts/switch", %{"off" => ""})
+
+      %{incoming_numbers: inc_nums} = :sys.get_state(d)
+      assert inc_nums == []
     end
   end
 end

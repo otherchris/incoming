@@ -37,19 +37,26 @@ defmodule Incoming.Shifter do
     start_phones =
       start_shifts
       |> Enum.map(&Map.get(&1, :phone))
+
     stop_phones =
       stop_shifts
       |> Enum.map(&Map.get(&1, :phone))
 
-    IO.inspect("adding #{start_phones} and removing #{stop_phones} at #{DateTime.utc_now() |> DateTime.to_string()}")
+    IO.inspect(
+      "adding #{start_phones} and removing #{stop_phones} at #{
+        DateTime.utc_now() |> DateTime.to_string()
+      }"
+    )
+
     d = Process.whereis(:dialer)
 
     start_phones
     |> Enum.each(&IncomingDialer.add_incoming_number(d, &1))
+
     stop_phones
     |> Enum.each(&IncomingDialer.remove_incoming_number(d, &1))
 
-    Process.send_after(self(), :shift, 60_000, [])    
+    Process.send_after(self(), :shift, 60_000, [])
 
     {:noreply, state}
   end
