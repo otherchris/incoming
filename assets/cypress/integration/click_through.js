@@ -58,8 +58,33 @@ context('Click through tour', () => {
     it('shifts page basically works', () => {
         cy.login(email, password);
         cy.visit('localhost:4000/shifts');
-        cy.get('input[type="checkbox"').last().click();
-        cy.get('button').click();
+        cy.get('select#shift_start_year').select('2020');
+        cy.get('select#shift_start_month').select('2');
+        cy.get('select#shift_start_day').select('2');
+        cy.get('select#shift_start_hour').select('2');
+        cy.get('select#shift_start_minute').select('2');
+        cy.get('select#shift_stop_year').select('2020');
+        cy.get('select#shift_stop_month').select('3');
+        cy.get('select#shift_stop_day').select('3');
+        cy.get('select#shift_stop_hour').select('3');
+        cy.get('select#shift_stop_minute').select('3');
+        cy.get('button')
+            .contains("Sign Up")
+            .click();
+        cy.url().should('include', 'dashboard');
+        cy.contains('Feb 2, 2020');
+        cy.contains('Mar 3, 2020');
+
+        cy.visit('localhost:4000/shifts');
+        cy.get('button')
+            .contains("ON")
+            .click();
+        cy.contains('Calls are ON');
+        cy.visit('localhost:4000/shifts');
+        cy.get('button')
+            .contains("OFF")
+            .click();
+        cy.contains('Calls are OFF');
     });
 
     it('dashboard page', () => {

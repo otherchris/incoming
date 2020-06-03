@@ -24,6 +24,14 @@
           </ul>
         </nav>
         <h1> Incoming </h1>
+        <%= if user_or_nil(@conn) == nil do %>
+        <% else %>
+          <%= if receiving_calls?(@conn) do %>
+            Calls are ON! (<%= user_or_nil(@conn).phone %>)
+          <% else %>
+            Calls are OFF!
+          <% end %>
+        <% end %>
       </section>
     </header>
     <main role="main" class="container">

@@ -8,7 +8,7 @@ defmodule IncomingWeb.ShiftView do
 
   def date_view(dt) do
     {:ok, e_dt} = DateTime.shift_zone(dt, "America/New_York")
-    {:ok, day_label} = Strftime.format(e_dt, "%a,  %b %d, %Y")
+    {:ok, day_label} = Strftime.format(e_dt, "%a,  %b %-d, %Y")
     {:ok, time_label} = Strftime.format(e_dt, "%H:%M")
 
     %{

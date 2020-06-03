@@ -2,7 +2,7 @@
 <ul class="shift-picker-list">
   <%= for shift <- @user.shifts |> IncomingWeb.ShiftView.sort_shifts do %>
     <li>
-      <%= render IncomingWeb.ShiftView, "_shift.html", f: nil, shift_time: IncomingWeb.ShiftView.date_view(shift.start) %> 
+      <%= render IncomingWeb.ShiftView, "_shift.html", f: nil, start_time: IncomingWeb.ShiftView.date_view(shift.start), stop_time: IncomingWeb.ShiftView.date_view(shift.stop) %> 
     </li>
   <% end %> 
 </ul>
