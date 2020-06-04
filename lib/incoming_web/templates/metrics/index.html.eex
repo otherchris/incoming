@@ -1,0 +1,4 @@
+<% %{numbers_in_use: niu, incoming_numbers: inc_num} = dialer() %>
+Numbers in use: <%= niu %>
+<br>
+Incoming numbers: <%= inc_num %>

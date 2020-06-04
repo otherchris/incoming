@@ -61,12 +61,8 @@ defmodule IncomingWeb.Router do
   # If your application does not have an admins-only section yet,
   # you can use Plug.BasicAuth to set up some basic authentication
   # as long as you are also using SSL (which you should anyway).
-  if Mix.env() in [:dev, :test, :prod] do
-    import Phoenix.LiveDashboard.Router
-
-    scope "/" do
-      pipe_through [:browser, :guardian, :browser_auth]
-      live_dashboard "/live_dashboard", metrics: IncomingWeb.Telemetry
-    end
+  scope "/", IncomingWeb do
+    pipe_through [:browser, :guardian, :browser_auth]
+    get "/live_dashboard", MetricsController, :index
   end
 end
