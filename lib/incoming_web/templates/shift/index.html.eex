@@ -2,12 +2,12 @@
   All times Eastern
   <%= form_for @conn, "/shifts/sign-up", [as: :shift], fn f -> %>
     <label>
-      Start <%= datetime_select f, :start %>
+      Start <%= datetime_select f, :start, year: [options: 2020..2021] %>
     </label>
     <label>
-      Stop <%= datetime_select f, :stop %>
+      Stop <%= datetime_select f, :stop, year: [options: 2020..2021] %>
     </label>
-    <%= submit "Sign Up!", class: "shift-submit"%>
+    <%= submit "Sign Up!", class: "shift-submit" %>
   <% end %>
 
   <%= form_for @conn, "/shifts/switch", [as: :switch], fn _f -> %>
