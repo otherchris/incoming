@@ -2,16 +2,10 @@ defmodule IncomingWeb.ShiftControllerTest do
   @moduledoc false
 
   use IncomingWeb.ConnCase
-  alias Incoming.{Repo, Shift, User}
+  alias Incoming.{Repo, Shift}
   alias IncomingWeb.Authentication
 
   import Incoming.Factory
-
-  @time1 "2020-01-01T00:00:00Z"
-  @time2 "2020-01-01T00:30:00Z"
-  @time3 "2020-01-02T00:30:00Z"
-  @badtime "2020-01-01T00:12:00Z"
-  @nottime "kljdsic"
 
   setup do
     d = Process.whereis(:dialer)
@@ -47,15 +41,12 @@ defmodule IncomingWeb.ShiftControllerTest do
 
       after_count = Repo.all(Shift) |> length
       assert after_count == before_count + 1
-
-      {:ok, dt, 0} = DateTime.from_iso8601("2020-01-01T17:05:00Z")
-      {:ok, [shift]} = Shift.get_by_start(dt)
     end
   end
 
   describe "post /shifts/switch" do
     test "switch on", %{user: user, d: d} do
-      build_conn
+      build_conn()
       |> Authentication.log_in(user)
       |> post("/shifts/switch", %{"on" => ""})
 
@@ -66,7 +57,7 @@ defmodule IncomingWeb.ShiftControllerTest do
     test "switch off", %{user: user, d: d} do
       IncomingDialer.add_incoming_number(d, user.phone)
 
-      build_conn
+      build_conn()
       |> Authentication.log_in(user)
       |> post("/shifts/switch", %{"off" => ""})
 
