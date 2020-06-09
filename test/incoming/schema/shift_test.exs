@@ -44,13 +44,24 @@ defmodule Incoming.ShiftTest do
     end
   end
 
-  describe "required fields" do
+  describe "validation" do
     test "start is required in the db schema" do
       assert_raise Postgrex.Error, fn -> Repo.insert(%Shift{}) end
     end
 
     test "start is required on the changeset" do
       cs = Shift.changeset(%Shift{}, %{})
+      refute cs.valid?
+    end
+
+    test "start must be before stop" do
+      shift =
+        build(:shift, %{
+          start: DateTime.utc_now() |> DateTime.add(1, :second),
+          stop: DateTime.utc_now()
+        })
+
+      cs = Shift.changeset(%Shift{}, shift)
       refute cs.valid?
     end
   end

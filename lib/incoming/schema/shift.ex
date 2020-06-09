@@ -28,6 +28,7 @@ defmodule Incoming.Shift do
     shift
     |> cast(attrs, @fields ++ @required_fields)
     |> validate_required(@required_fields)
+    |> validate_time_frame(attrs)
   end
 
   def insert(shift) do
@@ -54,5 +55,15 @@ defmodule Incoming.Shift do
         where: s.stop == ^shift
 
     {:ok, Repo.all(query)}
+  end
+
+  def validate_time_frame(changeset, attrs) do
+    validate_change(changeset, :stop, fn curr, value ->
+      if DateTime.compare(attrs.start, value) != :lt do
+        [{:start, "start must be before stop"}]
+      else
+        []
+      end
+    end)
   end
 end

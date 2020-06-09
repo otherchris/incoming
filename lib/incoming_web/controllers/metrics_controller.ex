@@ -5,5 +5,4 @@ defmodule IncomingWeb.MetricsController do
     conn
     render(conn, "index.html")
   end
-
 end

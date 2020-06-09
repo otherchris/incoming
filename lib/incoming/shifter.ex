@@ -30,9 +30,11 @@ defmodule Incoming.Shifter do
       DateTime.utc_now()
       |> DateTime.truncate(:second)
       |> Map.put(:second, 0)
-    if DateTime.diff(DateTime.utc_now, next) > 50 do
+
+    if DateTime.diff(DateTime.utc_now(), next) > 50 do
       Process.send(self(), {:shift, DateTime.add(next, 60, :second)}, [])
     end
+
     Process.send_after(self(), :tick, 6000, [])
     {:noreply, state}
   end

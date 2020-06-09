@@ -5,7 +5,7 @@ defmodule IncomingWeb.MetricsView do
 
   def dialer do
     :dialer
-    |> Process.whereis
-    |> :sys.get_state
+    |> Process.whereis()
+    |> :sys.get_state()
   end
 end

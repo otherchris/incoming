@@ -27,7 +27,13 @@ defmodule Incoming.ShifterTest do
         |> Map.put(:second, 0)
 
       %{id: id1} = insert(:user)
-      insert(:shift, %{user_id: id1, start: shift_time, phone: "phone1"})
+
+      insert(:shift, %{
+        user_id: id1,
+        start: shift_time,
+        stop: DateTime.add(shift_time, 1, :second),
+        phone: "phone1"
+      })
 
       Process.send(s, {:shift, get_now()}, [])
       Process.sleep(10)
