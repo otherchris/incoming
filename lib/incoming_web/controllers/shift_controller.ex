@@ -8,15 +8,23 @@ defmodule IncomingWeb.ShiftController do
     render(conn, "index.html")
   end
 
+  def errors_to_msg([{_, {msg, _}} | _]), do: msg
+
   def sign_up(conn, %{"shift" => %{"start" => start, "stop" => stop}}) do
     user = Authentication.get_current_user(conn)
 
     {:ok, start} = datetime_from_html_dt(start) |> DateTime.shift_zone("Etc/UTC")
     {:ok, stop} = datetime_from_html_dt(stop) |> DateTime.shift_zone("Etc/UTC")
 
-    Shift.insert(%{start: start, stop: stop, user_id: user.id, phone: user.phone})
-
-    redirect(conn, to: "/dashboard")
+    case Shift.insert(%{start: start, stop: stop, user_id: user.id, phone: user.phone}) do
+      {:ok, _} ->
+        redirect(conn, to: "/dashboard")
+        conn.halt()
+      {:error, :invalid, cs} ->
+        conn
+        |> put_flash(:error, cs.errors |> errors_to_msg)
+        |> render("index.html")
+    end
   end
 
   def switch(conn, %{"off" => _}) do

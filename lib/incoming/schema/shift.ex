@@ -60,7 +60,7 @@ defmodule Incoming.Shift do
   def validate_time_frame(changeset, attrs) do
     validate_change(changeset, :stop, fn curr, value ->
       if DateTime.compare(attrs.start, value) != :lt do
-        [{:start, "start must be before stop"}]
+        [{:start, "Start time must be before stop time"}]
       else
         []
       end

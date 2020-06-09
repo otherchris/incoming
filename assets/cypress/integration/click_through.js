@@ -87,6 +87,27 @@ context('Click through tour', () => {
         cy.contains('Calls are OFF');
     });
 
+    it('shift will flash error on bad timeframe', () => {
+        cy.login(email, password);
+        cy.visit('localhost:4000/shifts');
+        cy.get('select#shift_start_year').select('2020');
+        cy.get('select#shift_start_month').select('2');
+        cy.get('select#shift_start_day').select('2');
+        cy.get('select#shift_start_hour').select('2');
+        cy.get('select#shift_start_minute').select('2');
+        cy.get('select#shift_stop_year').select('2020');
+        cy.get('select#shift_stop_month').select('1');
+        cy.get('select#shift_stop_day').select('3');
+        cy.get('select#shift_stop_hour').select('3');
+        cy.get('select#shift_stop_minute').select('3');
+        cy.get('button')
+            .contains('Sign Up')
+            .click();
+        cy.url().should('include', 'shifts');
+        cy.contains('Start time must be before stop time');
+
+    });
+
     it('dashboard page', () => {
         cy.login(email, password);
         cy.visit('localhost:4000/dashboard');
