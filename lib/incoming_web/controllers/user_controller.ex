@@ -3,6 +3,7 @@ defmodule IncomingWeb.UserController do
 
   use IncomingWeb, :controller
 
+  alias Incoming.Environment, as: E
   alias Incoming.{Repo, User}
   alias IncomingWeb.Authentication
 
@@ -28,6 +29,13 @@ defmodule IncomingWeb.UserController do
       "phone" => phone
     } = params["user"]
 
+    conf_code =
+      if E.env() != :prod do
+        "999999"
+      else
+        make_conf_code
+      end
+
     {:ok, user} =
       User.insert(%{
         email: email,
@@ -35,11 +43,15 @@ defmodule IncomingWeb.UserController do
         password_confirmation: password_confirmation,
         display_name: display_name,
         phone: phone,
-        pending_phone_confirmation_code: "999999"
+        pending_phone_confirmation_code: conf_code
       })
 
     pid = Process.whereis(:dialer)
-    IncomingDialer.send_sms(pid, "Your code, like all codes, is 999999", "+1#{user.phone}")
+    if E.env() != :prod do
+      IncomingDialer.send_sms(pid, "DEV MODE, FAKE CODE IS 999999", "+1#{user.phone}")
+    else
+      IncomingDialer.send_sms(pid, "Incoming app confirmation code: #{conf_code}", "+1#{user.phone}")
+    end
 
     conn
     |> render("new.html", confirm_phone: true, user_id: user.id)
@@ -59,6 +71,17 @@ defmodule IncomingWeb.UserController do
       |> redirect(to: "/dashboard")
     else
       redirect(conn, to: "/register")
+    end
+  end
+
+  def make_conf_code, do: make_conf_code([])
+  def make_conf_code(list) do
+    if length(list) >= 6 do
+      list
+      |> Enum.map(&Integer.to_string(&1))
+      |> Enum.join("")
+    else
+      list ++ [:rand.uniform(9)] |> make_conf_code
     end
   end
 end

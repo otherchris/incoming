@@ -58,8 +58,14 @@ defmodule Incoming.Shifter do
     start_phones
     |> Enum.each(&IncomingDialer.add_incoming_number(d, &1))
 
+    start_phones
+    |> Enum.each(&IncomingDialer.send_sms(d, "Incoming app answering shift starting!", "+1#{&1}"))
+
     stop_phones
     |> Enum.each(&IncomingDialer.remove_incoming_number(d, &1))
+
+    stop_phones
+    |> Enum.each(&IncomingDialer.send_sms(d, "Incoming app answering shift ended!", "+1#{&1}"))
 
     Logger.info("Phones added: #{start_phones}, Phones removed: #{stop_phones}")
 

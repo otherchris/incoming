@@ -19,7 +19,6 @@ defmodule IncomingWeb.ShiftController do
     case Shift.insert(%{start: start, stop: stop, user_id: user.id, phone: user.phone}) do
       {:ok, _} ->
         redirect(conn, to: "/dashboard")
-        conn.halt()
       {:error, :invalid, cs} ->
         conn
         |> put_flash(:error, cs.errors |> errors_to_msg)
